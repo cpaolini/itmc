@@ -40,7 +40,7 @@ data_deque = {}
 class_names = COCO_CLASSES
 
 #database connection
-connection = pymysql.connect(host="localhost", user="salehipour", passwd="pETjHDaWnBkjt4mQ", database="itmc")
+connection = pymysql.connect(host="********", user="********", passwd="********", database="********")
 cursor = connection.cursor()
 connection.close()
 
@@ -1681,7 +1681,7 @@ def draw_borders(borders, img):
 
 #dic1={}
 def movement_counter(centerpoints, obj_name, id):
-    connection = pymysql.connect(host="localhost", user="salehipour", passwd="pETjHDaWnBkjt4mQ", database="itmc")
+    connection = pymysql.connect(host="********", user="********", passwd="********", database="********")
     cursor = connection.cursor()
     for border in borders:
         p1 = Point(*centerpoints[0])
@@ -1860,7 +1860,7 @@ if __name__=='__main__':
 
 
             tracker = Tracker(filter_classes=None, model='yolox-s', ckpt='weights/yolox_s.pth')  # instantiate Tracker
-            connection = pymysql.connect(host="localhost", user="salehipour", passwd="pETjHDaWnBkjt4mQ", database="itmc")
+            connection = pymysql.connect(host="********", user="********", passwd="********", database="********")
             cursor = connection.cursor()
             #
             # with open(log_file, 'r') as f:
