@@ -1,10 +1,12 @@
 import cv2
 import numpy as np
-from coordinates import get_coordinates
+from functions import get_coordinates
 
 # RTSP stream URL
-camera = 8008
-rtsp_url = f'rtsp://admin:Computervision20@63.42.242.124:{camera}'
+camera = 8005
+# rtsp_url = f'rtsp://admin:Computervision20@63.42.242.124:{camera}'
+# rtsp_url = f'rtsp://admin:Computervision20@192.168.1.65'
+rtsp_url = "C:/Users/shoun/Downloads/camera_8008_video_10.mkv"
 
 # Initialize global variables
 clicked_points = []
@@ -90,18 +92,26 @@ cv2.namedWindow("RTSP Stream", cv2.WINDOW_NORMAL)
 cv2.resizeWindow("RTSP Stream", window_width, window_height)
 cv2.setMouseCallback("RTSP Stream", mouse_callback, (frame_width, frame_height))
 
-while True:
-    ret, frame = cap.read()  # Read a frame from the RTSP stream
-    if not ret:
-        print("Failed to retrieve frame. Exiting...")
-        break
+# while True:
+#     ret, frame = cap.read()  # Read a frame from the RTSP stream
+#     if not ret:
+#         print("Failed to retrieve frame. Exiting...")
+#         break
 
-    # Calculate the visible area based on zoom and offsets
+#     # Calculate the visible area based on zoom and offsets
+#     visible_width = int(frame_width / zoom_level)
+#     visible_height = int(frame_height / zoom_level)
+#     visible_frame = frame[int(offset_y):int(offset_y + visible_height), int(offset_x):int(offset_x + visible_width)]
+
+#     # Resize the visible area to fit the window size
+#     resized_frame = cv2.resize(visible_frame, (window_width, window_height))
+
+while True:
+    # Instead of reading a new frame, just keep using the first frame
     visible_width = int(frame_width / zoom_level)
     visible_height = int(frame_height / zoom_level)
     visible_frame = frame[int(offset_y):int(offset_y + visible_height), int(offset_x):int(offset_x + visible_width)]
 
-    # Resize the visible area to fit the window size
     resized_frame = cv2.resize(visible_frame, (window_width, window_height))
 
     # Draw clicked points
@@ -115,15 +125,15 @@ while True:
                         cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 0, 255), 1, cv2.LINE_AA)  # Coordinates in red
             
     # Draw plot points
-    for points in plot:
-        point = points[0]
-        # Adjust points for zoom and offsets
-        screen_x = int((point[0] - offset_x) * zoom_level)
-        screen_y = int((point[1] - offset_y) * zoom_level)
-        if 0 <= screen_x < window_width and 0 <= screen_y < window_height:
-            cv2.circle(resized_frame, (screen_x, screen_y), 3, (0, 255, 0), -1)  # Small green dot
-            cv2.putText(resized_frame, f"{points[1]}", (screen_x + 5, screen_y - 5),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 255, 0), 1, cv2.LINE_AA)  # Coordinates in green
+    # for points in plot:
+    #     point = points[0]
+    #     # Adjust points for zoom and offsets
+    #     screen_x = int((point[0] - offset_x) * zoom_level)
+    #     screen_y = int((point[1] - offset_y) * zoom_level)
+    #     if 0 <= screen_x < window_width and 0 <= screen_y < window_height:
+    #         cv2.circle(resized_frame, (screen_x, screen_y), 3, (0, 255, 0), -1)  # Small green dot
+    #         cv2.putText(resized_frame, f"{points[1]}", (screen_x + 5, screen_y - 5),
+    #                     cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 255, 0), 1, cv2.LINE_AA)  # Coordinates in green
 
     # Update the current cursor position
     cursor_x, cursor_y = cursor_position

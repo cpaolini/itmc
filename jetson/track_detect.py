@@ -1,3 +1,5 @@
+# THIS CODE IS DEPRECATED
+
 #
 # https://github.com/dusty-nv/jetson-inference/blob/master/docs/detectnet-console-2.md
 #

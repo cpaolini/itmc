@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 from ultralytics import YOLO
 from deep_sort_realtime.deepsort_tracker import DeepSort
-from coordinates import get_coordinates  # Custom function to map coordinates
+from chaudhuri_test.functions import get_coordinates  # Custom function to map coordinates
 
 def global_to_map(x: float, y: float):
     xnew = (0.2 * (((1981-1022) * x) + 1022))

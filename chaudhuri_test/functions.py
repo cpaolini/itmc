@@ -6,6 +6,7 @@ def get_coordinates(input_format: int, output_format: int, coords: tuple) -> tup
         8007 = Northward-facing Camera
         8008 = Southward-facing Camera
         0 = Global Coordinate System (Birdseye)
+        1 = Map Coordinates (Google Earth)
     """
     X__8005 = [10.30843405,45.38756318,196.4096603,1338.170572,-57.40383628]
     Y__8005 = [585.276743,-16.00967953,28.00210801,3.6280057,160.1384002]
@@ -15,7 +16,7 @@ def get_coordinates(input_format: int, output_format: int, coords: tuple) -> tup
     Y__8007 = [25.14681561,855.081163,-110.0547794,-1669.285951,977.7475742]
     X__8008 = [-328.5627317,250.3756283,-1126.659671,94.66940112,1310.884189]
     Y__8008 = [28.01475901,851.2439099,14.70547596,-86.02636125,29.94651496]
-    X_8005 = [-0.0000000625001738,-0.00000486912177,0.0000789294736,0.0050902368,-0.631586192]
+    X_8005 = [-0.0000000000134683, 0.0000000285247, -0.0000235506, 0.00978878, -1.00207]
     Y_8005 = [-0.0000000648198977,0.000000735736382,0.000783991199,-0.000747270962,0.131582098]
     X_8006 = [0.0000000375226214,0.00000266575432,-0.00015221015,-0.00336152476,1.33433451]
     Y_8006 = [0.000000014275798,-0.000000500160587,-0.000660893546,0.000685250173,0.841960017]
@@ -41,8 +42,15 @@ def get_coordinates(input_format: int, output_format: int, coords: tuple) -> tup
         output_x = (X__8008[0] * (x**2)) + (X__8008[1] * (y**2)) + (X__8008[2] * (x)) + (X__8008[3] * (y)) + (X__8008[4])
         output_y = (Y__8008[0] * (x**2)) + (Y__8008[1] * (y**2)) + (Y__8008[2] * (x)) + (Y__8008[3] * (y)) + (Y__8008[4])
     elif io == (8005, 0):
-        output_x = (X_8005[0] * (x**2)) + (X_8005[1] * (y**2)) + (X_8005[2] * (x)) + (X_8005[3] * (y)) + (X_8005[4])
-        output_y = (Y_8005[0] * (x**2)) + (Y_8005[1] * (y**2)) + (Y_8005[2] * (x)) + (Y_8005[3] * (y)) + (Y_8005[4])
+        output_x = (X_8005[0] * (y**4)) + (X_8005[1] * (y**3)) + (X_8005[2] * (y**2)) + (X_8005[3] * (y)) + (X_8005[4])
+        a_b = (0, -254) # left_crosswalk_intersection
+        c_d = (1280, -224) # right_crosswalk_intersection
+        y = -y
+        y_bound_left = ((157 - a_b[0]) / (-153 - a_b[1])) * (y - a_b[1])
+        print(y_bound_left)
+        y_bound_right = (y + 1280 * ((-153 - c_d[1]) / (1137 - c_d[0])) - c_d[1]) * ((1137 - c_d[0]) / (-153 - c_d[1]))
+        print(y_bound_right)
+        output_y = (x - y_bound_left) / (y_bound_right - y_bound_left)
     elif io == (8006, 0):
         output_x = (X_8006[0] * (x**2)) + (X_8006[1] * (y**2)) + (X_8006[2] * (x)) + (X_8006[3] * (y)) + (X_8006[4])
         output_y = (Y_8006[0] * (x**2)) + (Y_8006[1] * (y**2)) + (Y_8006[2] * (x)) + (Y_8006[3] * (y)) + (Y_8006[4])
@@ -52,6 +60,9 @@ def get_coordinates(input_format: int, output_format: int, coords: tuple) -> tup
     elif io == (8008, 0):
         output_x = (X_8008[0] * (x**2)) + (X_8008[1] * (y**2)) + (X_8008[2] * (x)) + (X_8008[3] * (y)) + (X_8008[4])
         output_y = (Y_8008[0] * (x**2)) + (Y_8008[1] * (y**2)) + (Y_8008[2] * (x)) + (Y_8008[3] * (y)) + (Y_8008[4])
+    elif io == (0, 1):
+        output_x = (0.2 * (((1981-1022) * x) + 1022))
+        output_y = (0.2 * (((596-1555) * y) + 1555))
     else:
         if input_format != 0 and output_format != 0:
             return get_coordinates(0, output_format, get_coordinates(input_format, 0, coords))
@@ -61,3 +72,4 @@ def get_coordinates(input_format: int, output_format: int, coords: tuple) -> tup
 #     print(get_coordinates(0, val, (0.486, 0.541)))
 #     print(get_coordinates(val, 0, get_coordinates(0, val, (0.486, 0.541))))
 
+print(get_coordinates(8005, 0, (384, 288)))
