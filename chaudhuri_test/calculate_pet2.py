@@ -7,7 +7,7 @@ from matplotlib.path import Path
 from PIL import Image
 
 # === CONSTANTS ===
-CSV_FILE = 'D:/Jetson Project Sample Videos/vehicle_rectangles_4200sec3.csv'
+CSV_FILE = 'D:/Jetson Project Sample Videos/rectangles_from_json4.csv'
 GRID_WIDTH = 1600
 GRID_HEIGHT = 1600
 HEATMAP_WIDTH = 800
@@ -15,7 +15,7 @@ HEATMAP_HEIGHT = 800
 CENTER_X = (GRID_WIDTH - HEATMAP_WIDTH) // 2
 CENTER_Y = (GRID_HEIGHT - HEATMAP_HEIGHT) // 2
 MIN_TIME = 0.2
-MAX_TIMESTAMP = 4200.0
+MAX_TIMESTAMP = 179900.0
 TIMESTEP = 0.1
 BACKGROUND_IMAGE = 'C:/Users/shoun/Downloads/intersection.png'
 PIXEL_TO_METER = 26.2 / 800  # meters per pixel
@@ -50,10 +50,10 @@ while timestamp <= MAX_TIMESTAMP:
 
     for _, row in rows.iterrows():
         corners = [
-            (row['corner1_x'] + CENTER_X, row['corner1_y'] + CENTER_Y),
-            (row['corner2_x'] + CENTER_X, row['corner2_y'] + CENTER_Y),
-            (row['corner3_x'] + CENTER_X, row['corner3_y'] + CENTER_Y),
-            (row['corner4_x'] + CENTER_X, row['corner4_y'] + CENTER_Y)
+            (row['x1'] + CENTER_X, row['y1'] + CENTER_Y),
+            (row['x2'] + CENTER_X, row['y2'] + CENTER_Y),
+            (row['x3'] + CENTER_X, row['y3'] + CENTER_Y),
+            (row['x4'] + CENTER_X, row['y4'] + CENTER_Y)
         ]
         poly_path = Path(corners)
 
@@ -162,7 +162,7 @@ def overlay_heatmap_on_image(ax, data, cmap, title, colorbar_label, alpha=1.0, u
 # === PLOT PET HEATMAP ===
 overlay_heatmap_on_image(
     ax1, avg_pet, cmap=transparent_red_orange_yellow,
-    title='PET per Pixel - 6:45-7:55 PM, Jul 1, 2025',
+    title='PET per Pixel',
     colorbar_label='seconds',
     alpha=1.0,
     use_log=True

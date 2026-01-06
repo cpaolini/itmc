@@ -44,7 +44,7 @@ if fps <= 0:
     fps = 30  # fallback if FPS is not available
 
 # Output CSV setup
-csv_filename = "D:/Jetson Project Sample Videos/vehicle_rectangles_2460sec4.csv"
+csv_filename = "D:/Jetson Project Sample Videos/vehicle_rectangles_2460sec5.csv"
 csv_header = [
     "timestamp", "color", "length", "width", "angle", "area",
     "corner1_x", "corner1_y", "corner2_x", "corner2_y", "corner3_x", "corner3_y", "corner4_x", "corner4_y"
@@ -54,7 +54,7 @@ csv_writer = csv.writer(csv_file)
 csv_writer.writerow(csv_header)
 
 # Output AVI setup
-avi_filename = "D:/Jetson Project Sample Videos/world_grid_2460sec4.avi"
+avi_filename = "D:/Jetson Project Sample Videos/world_grid_2460sec5.avi"
 avi_fps = fps
 avi_size = (grid_scale, grid_scale)
 fourcc = cv2.VideoWriter_fourcc(*"XVID")
